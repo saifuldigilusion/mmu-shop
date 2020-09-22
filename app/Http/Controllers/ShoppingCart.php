@@ -139,10 +139,10 @@ class ShoppingCart extends Controller
             }
 
             Cart::destroy();
-            
+
             $detail = config('senangpay.detail');
             $senangPaySecret = config('senangpay.secretKey');
-            $senangPayMerchantId = config('senangpay.merchatId');
+            $senangPayMerchantId = config('senangpay.merchantId');
             $str = $senangPaySecret . $detail . $order->total . $order->orderid;
             $hash = hash_hmac('SHA256', $str, $senangPaySecret);
             $directParam = array(
