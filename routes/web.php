@@ -13,9 +13,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/*
 Route::get('/', function () {
     return view('welcome');
 });
+*/
+Route::get('/', 'Shop@show')->name('shop');
 
 Route::get('/cart', 'ShoppingCart@show')->name('cart_show');
 Route::get('/cart/add', 'ShoppingCart@add')->name('cart_add');
@@ -24,6 +27,7 @@ Route::get('/cart/list', 'ShoppingCart@list')->name('cart_list');
 Route::get('/cart/clear', 'ShoppingCart@clear')->name('cart_clear');
 Route::get('/cart/remove', 'ShoppingCart@remove')->name('cart_remove');
 Route::post('/cart/checkout', 'ShoppingCart@checkout')->name('cart_checkout');
+
 
 Route::get('/shop', 'Shop@show')->name('shop');
 
