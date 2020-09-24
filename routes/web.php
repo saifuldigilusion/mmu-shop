@@ -19,6 +19,8 @@ Route::get('/', function () {
 });
 */
 Route::get('/', 'Shop@show')->name('shop');
+Route::get('/shop', 'Shop@show')->name('shop');
+Route::get('/product/{productId}', 'Shop@productDetail')->name('product-detail');
 
 Route::get('/cart', 'ShoppingCart@show')->name('cart_show');
 Route::get('/cart/add', 'ShoppingCart@add')->name('cart_add');
@@ -28,10 +30,8 @@ Route::get('/cart/clear', 'ShoppingCart@clear')->name('cart_clear');
 Route::get('/cart/remove', 'ShoppingCart@remove')->name('cart_remove');
 Route::post('/cart/checkout', 'ShoppingCart@checkout')->name('cart_checkout');
 
-
-Route::get('/shop', 'Shop@show')->name('shop');
-
 Route::get('/payment/senangpay/return', 'SenangPayPayment@return_')->name('senangpay_return');
 Route::get('/payment/senangpay/callback', 'SenangPayPayment@callback')->name('senangpay_callback');
 
 Route::get('/test/senangpay', 'ShoppingCart@senangpay')->name('test_senangpay');
+Route::get('/test/sendmail', 'Test@sendmail')->name('test_mail');

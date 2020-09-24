@@ -1,0 +1,39 @@
+/*!
+ * Start Bootstrap - Shop Homepage (https://startbootstrap.com/templates/shop-homepage)
+ * Copyright 2013-2020 Start Bootstrap
+ * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-homepage/blob/master/LICENSE)
+ */
+body {
+  padding-top: 56px;
+}
+
+.navbar-custom { 
+  background-color: #093990; 
+} 
+
+/* Modify brand and text color */ 
+.navbar-custom .navbar-brand, 
+.navbar-custom .navbar-text .nav-link { 
+  color: white; 
+} 
+
+.navbar-custom .nav-link { 
+  color: white; 
+} 
+
+.navbar {
+  border-bottom:3px solid red;
+}
+
+.blue-mmu { 
+  background-color: #093990; 
+} 
+
+.btn-buy { 
+  background-color: #093990; 
+  color: white; 
+} 
+
+.btn-buy:hover {  
+  color: red; 
+} 

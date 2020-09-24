@@ -97,7 +97,7 @@ class ShoppingCart extends Controller
         $items = Cart::content();
         $total = Cart::total();
         $count = Cart::count();
-        return view('cart', compact('items', 'error', 'count', 'total'));
+        return view('shop.cart', compact('items', 'error', 'count', 'total'));
     }
 
     public function checkout(Request $request) {
