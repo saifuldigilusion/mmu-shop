@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Order;
 use App\OrderItem;
+use App\Mail\OrderReceived;
+use Illuminate\Support\Facades\Mail;
 use Gloudemans\Shoppingcart\Facades\Cart;   
 
 class SenangPayPayment extends Controller
@@ -32,17 +34,24 @@ class SenangPayPayment extends Controller
                     $order->payment_msg = $msg;
                     $order->payment_transactionid = $transactionId;
                     $order->payment_timestamp = date("Y-m-d H:i:s");
+                    $status = "PAYMENT_FAILED";
+                    if($statusId == 1) {
+                        $status = "PAID";
+                    } 
+                    $order->status = $status;
                     $order->save();
 
                     $orderItems = OrderItem::where('order_id', $order->id)->get();
-                    return view('payment', compact('statusId', 'msg', 'transactionId', 'order', 'orderItems'));
+                    $saleContact = config('mmucnergy.salesContact', '');
+                    Mail::to($order->email)->bcc($saleContact)->send(new OrderReceived($order, $orderItems));
+                    return view('shop.payment', compact('statusId', 'msg', 'transactionId', 'order', 'orderItems'));
                 }
                 else {
-                    return view('payment_invalid');
+                    return view('shop.payment_invalid');
                 }
             }
             else {
-                return view('payment_invalid');
+                return view('shop.payment_invalid');
             }
         }
 

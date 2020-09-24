@@ -4,19 +4,25 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use App\Order;
+use App\OrderItem;
 
 class Test extends Controller
 {
     //1aslasita?
     public function sendmail() {
 
-        $subject = "test subject";
-        $to = "Saiful Bahri <saifulbahri@gmail.com>";
+        $to = "saifulbahri@gmail.com";
 
-        Mail::send('mails.order.received', ['content' => '', 'logo' =>'','title' => '', 'branch_name' => ''], function ($message) use ($subject, $to){
-            $message->from('support@digilusion.com', 'Support Digilusion');
-            $message->to('saifulbahri@gmail.com');
-            $message->subject('Email Subject');
-         });
+        $order = Order::find(15);
+        $orderItems = OrderItem::where('order_id', $order->id)->get();
+        $subject = "MMU Shop - Order Details (" . $order->orderid . ")";
+        Mail::send('mails.order.received', ['order' => $order, 'orderItems' => $orderItems , 'logo' =>'','title' => '', 'store_name' => 'MMU Shop'], function ($message) use ($subject, $to){
+            $message->to($to);
+            $message->subject($subject);
+        });
+        
+        
+        //return view('mails.order.received',  ['order' => $order, 'orderItems' => $orderItems , 'logo' =>'','title' => '', 'store_name' => 'MMU Shop']);
     }
 }

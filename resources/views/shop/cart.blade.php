@@ -13,10 +13,10 @@
     <form id="form" method="POST" action="/cart/checkout" class="needs-validation" novalidate>
         @csrf
         <div class="card shopping-cart">
-            <div class="card-header bg-light text-dark">
+            <div class="card-header bg-secondary text-light">
                 <i class="fa fa-shopping-cart" aria-hidden="true"></i>
                 My Shopping cart
-                <a href="/shop" class="btn btn-outline-info btn-sm pull-right">Continue Shopping</a>
+                <a href="/shop" class="btn btn-outline-light btn-sm pull-right">Continue Shopping</a>
                 <div class="clearfix"></div>
             </div>
             <div class="card-body">
@@ -107,7 +107,7 @@
 
             <div class="col-md-4 order-md-2 mb-4">
             <ul class="list-group mb-3">
-                <li class="list-group-item d-flex justify-content-between">
+                <li class="list-group-item d-flex justify-content-between bg-secondary text-light">
                     <span>Total (MYR)</span>
                     <strong>{{ $total }}</strong>
                 </li>

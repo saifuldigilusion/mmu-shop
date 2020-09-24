@@ -11,14 +11,19 @@ class OrderReceived extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $order;
+    public $orderItems;
+
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($order, $orderItems)
     {
         //
+        $this->order = $order;
+        $this->orderItems = $orderItems;
     }
 
     /**
@@ -28,6 +33,7 @@ class OrderReceived extends Mailable
      */
     public function build()
     {
-        return $this->view('mails.order.received');
+        $subject = $subject = "MMU Shop - Order Details (" . $this->order->orderid . ")";
+        return $this->subject($subject)->view('mails.order.received', ['order' => $this->order, 'orderItems' => $this->orderItems]);
     }
 }

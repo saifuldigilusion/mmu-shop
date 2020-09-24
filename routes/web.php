@@ -33,5 +33,5 @@ Route::post('/cart/checkout', 'ShoppingCart@checkout')->name('cart_checkout');
 Route::get('/payment/senangpay/return', 'SenangPayPayment@return_')->name('senangpay_return');
 Route::get('/payment/senangpay/callback', 'SenangPayPayment@callback')->name('senangpay_callback');
 
-Route::get('/test/senangpay', 'ShoppingCart@senangpay')->name('test_senangpay');
+Route::get('/test/senangpay/552153622504722', 'ShoppingCart@senangpay')->name('test_senangpay');
 Route::get('/test/sendmail', 'Test@sendmail')->name('test_mail');
