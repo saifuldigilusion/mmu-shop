@@ -142,6 +142,11 @@ text-align: center; text-decoration: none; -webkit-text-size-adjust: none;',
             <tr>
                 <td style="{{ $style['table_padding'] }}">
                     {{ $item->name }}
+                    @if($item->booking)
+                    <br>
+                    <a href="/reservation/byorder/{{ $order->orderid }}">Book your slot</a>
+                    @endif
+
                 </td>
                 <td style="{{ $style['table_padding'] }}">
                    {{ $item->qty }}

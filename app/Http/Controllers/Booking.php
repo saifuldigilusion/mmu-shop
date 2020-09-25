@@ -11,6 +11,7 @@ use App\Schedule;
 use App\ScheduleSlot;
 use App\Mail\BookingReceived;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 
 class Booking extends Controller
 {
@@ -23,7 +24,7 @@ class Booking extends Controller
             $orderItems = OrderItem::where('order_id', $order->id)->where('booking', true)->get();
             if($orderItems->count()) {
                 // check if booking already made with the order
-                $booking = Book::where('order_id', $order->id);
+                $bookings = array();
                 $schedules = array();
                 $scheduleSlots = array(); 
                 foreach($orderItems as $orderItem) {
@@ -31,12 +32,14 @@ class Booking extends Controller
                     if($product->booking) {
                         $schedule = Schedule::find($product->schedule_id);
                         $schedules[$orderItem->id] = $schedule;
-                        $scheduleSlot = ScheduleSlot::where('schedule_id', $schedule->id)->get();
+                        $scheduleSlot = ScheduleSlot::where('schedule_id', $schedule->id)->where('available', 1)->get();
                         $scheduleSlots[$orderItem->id] = $scheduleSlot;
                     }
+                    $booking = Book::where('order_id', $order->id)->where('order_item_id', $orderItem->id)->first();
+                    $bookings[$orderItem->id] = $booking;
                 }
                 if(count($schedules) > 0) {
-                    return view('shop.booking', compact('bookByOrder', 'order', 'booking', 'schedules', 'scheduleSlots', 'orderItems'));
+                    return view('shop.booking', compact('bookByOrder', 'order', 'bookings', 'schedules', 'scheduleSlots', 'orderItems'));
                 }
                 else {
                     $errorMsg = "The order $orderId do not require any reservation/booking.";
@@ -61,16 +64,10 @@ class Booking extends Controller
         $scheduleId = $request->input('scheduleid');
 
         $order = Order::where('orderid', $orderId)->first();
-        if($order) {
+        if($order !== null) {
             // check if booking has been made
-            $booking = Book::where('order_id', $orderId)->where('order_item_id', $orderItemId)->first();
-            if($booking->count()) {
-                $schedule = Schedule::find($scheduleId);
-                $orderItem = OrderItem::find($orderItemId);
-                $scheduleSlot = ScheduleSlot::find($booking->slot_id);
-                return view('shop.bookingreceived', compact('order', 'orderItem', 'schedule', 'scheduleSlot', 'booking'));
-            }
-            else {
+            $booking = Book::where('order_id', $order->id)->where('order_item_id', $orderItemId)->first();
+            if($booking === null) {
                 $scheduleSlot = ScheduleSlot::find($slotId);
                 if($scheduleSlot) {
                     $dt = date_format(date_create($scheduleSlot->start_date . " " . $scheduleSlot->start_time),"D d/m/Y H:i:s"); 
@@ -86,6 +83,11 @@ class Booking extends Controller
                         $booking->name = $order->name;
                         $booking->phone = $order->phone;
                         $booking->email = $order->email;
+                        $booking->start_date = $scheduleSlot->start_date;
+                        $booking->end_date = $scheduleSlot->end_date;
+                        $booking->start_time = $scheduleSlot->start_time;
+                        $booking->end_time = $scheduleSlot->end_time;
+                        $booking->qty = $orderItem->qty;
 
                         $booking->save();
 
@@ -112,6 +114,12 @@ class Booking extends Controller
                 else {
                     $errorMsg = "The slot you choose is not available.";
                 }
+            }
+            else {
+                $schedule = Schedule::find($scheduleId);
+                $orderItem = OrderItem::find($orderItemId);
+                $scheduleSlot = ScheduleSlot::find($booking->slot_id);
+                return view('shop.bookingreceived', compact('order', 'orderItem', 'schedule', 'scheduleSlot', 'booking'));
             }
             
             $errorMsg = $errorMsg . "<br><br><a href=\"/reservation/byorder/$orderId\">Please try again</a>";

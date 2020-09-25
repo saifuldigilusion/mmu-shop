@@ -54,6 +54,7 @@
       @php
       $sc = $schedules[$oi->id];
       $slots = $scheduleSlots[$oi->id];
+      $booking = $bookings[$oi->id];   
       $datesAndTime = array();
       foreach($slots as $s) {
         $d = $s->date;
@@ -73,6 +74,7 @@
 
     <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
       <div class="card-body">
+        @if($booking === null) 
         <form method="post" id="form" action="/reservation/update/byorder" class="needs-validation" novalidate>
           @csrf
           <input type="hidden" name="orderid" value="{{ $order->orderid }}">
@@ -101,6 +103,19 @@
             </div>
           </div>
         </form>
+        @else
+        <div class="row">
+          <div class="col-md-12">
+            <p>
+              You have made reservation for this order's item.
+            </p>
+            {{ $sc->name }} {{ $oi->name }} 
+            <p>
+              Reservation: {{ date_format(date_create($booking->start_date . " " . $booking->start_time),"D d/m/Y H:i:s") }}
+            </p>
+          </div>
+        </div>
+        @endif
       </div>
     </div>
   </div> <!-- card -->
