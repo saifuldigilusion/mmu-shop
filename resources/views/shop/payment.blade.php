@@ -89,7 +89,7 @@
                       <div class="row">
                           <div class="col-12 col-sm-12 col-md-2 text-center">
                               <img class="img-responsive"
-                                  src="{{ $item->image }}" alt="prewiew"
+                                  src="{{ $item->image }}" alt="preview"
                                   width="120" height="80">
                           </div>
                           <div class="col-12 text-sm-center col-sm-12 text-md-left col-md-6">
@@ -98,7 +98,7 @@
                                   <small>{{ $item->description }}</small>
                               </h4>
                               @if($item->booking) 
-                                <a href="/reserve/byorder/{{ $order->orderid }}" class="btn btn-primary"> Book my session </a>
+                                <a href="/reservation/byorder/{{ $order->orderid }}" class="btn btn-primary"> Book my session </a>
                               @endif
                           </div>
                           <div class="col-12 col-sm-12 text-sm-center col-md-4 text-md-right row">

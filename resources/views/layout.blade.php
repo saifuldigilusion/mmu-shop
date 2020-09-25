@@ -48,7 +48,7 @@
   <!-- Footer -->
   <footer class="py-5 blue-mmu">
     <div class="container">
-      <p class="m-0 text-center text-white">Copyright &copy; MMU Cynergy 2020</p>
+      <p class="m-0 text-center text-white">Copyright &copy; 2020 MMU CNERGY. ALL RIGHTS RESERVED.</p>
     </div>
     <!-- /.container -->
   </footer>

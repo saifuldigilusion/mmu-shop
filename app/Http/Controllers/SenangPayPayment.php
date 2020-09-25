@@ -42,8 +42,10 @@ class SenangPayPayment extends Controller
                     $order->save();
 
                     $orderItems = OrderItem::where('order_id', $order->id)->get();
-                    $saleContact = config('mmucnergy.salesContact', '');
-                    Mail::to($order->email)->bcc($saleContact)->send(new OrderReceived($order, $orderItems));
+                    if(config('mmucnerfy.salesEmailEnable')) {
+                        $saleContact = config('mmucnergy.salesContact', '');
+                        Mail::to($order->email)->bcc($saleContact)->send(new OrderReceived($order, $orderItems));
+                    }
                     return view('shop.payment', compact('statusId', 'msg', 'transactionId', 'order', 'orderItems'));
                 }
                 else {

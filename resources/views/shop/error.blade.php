@@ -6,7 +6,7 @@
 @section('content')
 
   <!-- Page Content -->
-  <div class="container">
+  <div class="container mt-5 mb-5">
     <div class="row">
         <div class="col text-center">
             <h5>Uh-oh! Sorry..</h5>

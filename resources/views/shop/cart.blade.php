@@ -4,9 +4,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 @endsection
 
-</head>
-
-
 @section('content')
 
 <div class="container mt-5">

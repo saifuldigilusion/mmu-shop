@@ -61,7 +61,7 @@ text-align: center; text-decoration: none; -webkit-text-size-adjust: none;',
 <td style="{{ $style['email-body'] }}" width="100%"><table style="{{ $style['body_action'] }}" align="center" width="100%" cellpadding="0" cellspacing="0">
 <tr>
     <td align="center" style="{{ $fontFamily }} {{ $style['table_padding'] }}">
-        We have succesfully received your order.
+        We have succesfully received your booking.
     </td>
 </tr>
 <tr><td>&nbsp;</td></tr>
@@ -71,10 +71,10 @@ text-align: center; text-decoration: none; -webkit-text-size-adjust: none;',
     <table style="{{ $fontFamily }} min-width:600px;border-collapse: collapse;">
         <tr>
             <td style="{{ $style['table_padding'] }} {{ $style['table_border'] }} color:white;background-color:black; ">
-                Order No: {{ $order->orderid }}
+                Booking No: {{ $booking->bookingid }}
             </td>
             <td style="{{ $style['table_padding'] }} {{ $style['table_border'] }} color:white;background-color:black; ">
-                Date: {{ $order->date }}
+                Date: {{ date("d/m/Y", strtotime($booking->created_at)) }}
             </td>
         </tr>
     </table>
@@ -88,34 +88,12 @@ text-align: center; text-decoration: none; -webkit-text-size-adjust: none;',
         <table style="{{ $fontFamily }} min-width:600px;border-collapse: collapse;">
             <tr>
                 <td style="{{ $style['table_padding'] }}">
-                    Amount Paid: RM{{ $order->total }}
-                </td>
-                <td style="{{ $style['table_padding'] }}">
-                    Payment Channel: {{ $order->payment_channel }}
+                    {{ $schedule->name }} {{ $orderItem->name }}
                 </td>
             </tr>
             <tr>
                 <td style="{{ $style['table_padding'] }}">
-                    Transaction No: {{ $order->payment_transactionid }}
-                </td>
-                <td style="{{ $style['table_padding'] }}">
-                    Timestamp: {{ $order->payment_timestamp }}
-                </td>
-            </tr>
-            <tr>
-                <td style="{{ $style['table_padding'] }}">
-                    Name: {{ $order->name }}
-                </td>
-                <td style="{{ $style['table_padding'] }}">
-                    Phone: {{ $order->phone }}
-                </td>
-            </tr>
-            <tr>
-                <td style="{{ $style['table_padding'] }}">
-                    Email: {{ $order->email }}
-                </td>
-                <td style="{{ $style['table_padding'] }}">
-                    Info: {{ $order->studentid }}
+                    Reservation: {{ date_format(date_create($s->start_date . " " . $s->start_time),"D d/m/Y H:i:s"); }}
                 </td>
             </tr>
         </table>
@@ -123,50 +101,6 @@ text-align: center; text-decoration: none; -webkit-text-size-adjust: none;',
     </td>
 </tr>
 <tr><td>&nbsp;</td></tr>
-<tr>
-    <td align="center">
-    
-        <table style="{{ $fontFamily }} min-width:600px;border-collapse: collapse;">
-            <tr>
-                <td style="{{ $style['table_padding'] }} background-color: #ccc;">
-                    Items
-                </td>
-                <td style="{{ $style['table_padding'] }} background-color: #ccc;">
-                    Qty
-                </td>
-                <td style="{{ $style['table_padding'] }} background-color: #ccc;">
-                    Price
-                </td>
-            </tr>
-            @foreach($orderItems as $item)
-            <tr>
-                <td style="{{ $style['table_padding'] }}">
-                    {{ $item->name }}
-                </td>
-                <td style="{{ $style['table_padding'] }}">
-                   {{ $item->qty }}
-                </td>
-                <td style="{{ $style['table_padding'] }}">
-                    {{ $item->price }}
-                 </td>
-            </tr>
-            @endforeach
-            <tr>
-                <td style="{{ $style['table_padding'] }} background-color: #ccc;">
-                    &nbsp;
-                </td>
-                <td style="{{ $style['table_padding'] }} background-color: #ccc;">
-                    &nbsp;
-                </td>
-                <td style="{{ $style['table_padding'] }} background-color: #ccc;">
-                    &nbsp;
-                </td>
-            </tr>
-        </table>
-    
-    </td>
-</tr>
-
 
 </table></td>
 </tr>
