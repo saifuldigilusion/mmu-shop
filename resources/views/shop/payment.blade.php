@@ -97,6 +97,9 @@
                               <h4>
                                   <small>{{ $item->description }}</small>
                               </h4>
+                              @if($item->booking) 
+                                <a href="/reserve/byorder/{{ $order->orderid }}" class="btn btn-primary"> Book my session </a>
+                              @endif
                           </div>
                           <div class="col-12 col-sm-12 text-sm-center col-md-4 text-md-right row">
                               <div class="col-3 col-sm-3 col-md-6 text-md-right" style="padding-top: 5px">

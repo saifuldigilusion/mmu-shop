@@ -134,6 +134,7 @@ class ShoppingCart extends Controller
                 $oi->image = $item->options["image"];
                 $oi->price = $item->price;
                 $oi->qty = $item->qty;
+                $oi->booking = $item->options["booking"];
 
                 $oi->save();
             }
