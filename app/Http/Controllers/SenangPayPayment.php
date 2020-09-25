@@ -7,6 +7,7 @@ use App\Order;
 use App\OrderItem;
 use App\Mail\OrderReceived;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Log;
 use Gloudemans\Shoppingcart\Facades\Cart;   
 
 class SenangPayPayment extends Controller
@@ -42,7 +43,7 @@ class SenangPayPayment extends Controller
                     $order->save();
 
                     $orderItems = OrderItem::where('order_id', $order->id)->get();
-                    if(config('mmucnerfy.salesEmailEnable')) {
+                    if(config('mmucnergy.salesEmailEnable')) {
                         $saleContact = config('mmucnergy.salesContact', '');
                         Mail::to($order->email)->bcc($saleContact)->send(new OrderReceived($order, $orderItems));
                     }

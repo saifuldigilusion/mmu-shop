@@ -60,7 +60,7 @@
 
       <div class="col-md-4 order-md-2 mb-4 text-center">
           <ul class="list-group mb-3">
-              <li class="list-group-item d-flex justify-content-between">
+              <li class="list-group-item d-flex justify-content-between bg-secondary text-light">
                   @if($statusId == 1)
                     <span>Total Paid (MYR)</span>
                   @else
@@ -76,7 +76,7 @@
 
 
       <div class="card shopping-cart">
-          <div class="card-header bg-light text-dark">
+          <div class="card-header bg-secondary text-light">
               <i class="fa fa-shopping-cart" aria-hidden="true"></i>
               Purchased Items
               <div class="clearfix"></div>
@@ -84,7 +84,6 @@
           <div class="card-body">
               <!-- PRODUCT -->
               @if($order->total > 0)
-                  {{ logger($orderItems) }}
                   @foreach($orderItems as $item)
                       <div class="row">
                           <div class="col-12 col-sm-12 col-md-2 text-center">
