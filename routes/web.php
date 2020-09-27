@@ -46,7 +46,7 @@ Route::prefix('admin')->group(function () {
     Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/dashboard', 'Admin\\DashboardController@index')->name('dashboard');
         Route::match(array('GET','POST'), '/order/list', 'Admin\\OrderController@list')->name('order_list');
-        Route::get('/order/detail/{orderId}', 'Admin\\OrderController@detail')->name('order_detail');
+        Route::match(array('GET','POST'), '/order/detail/{orderId}', 'Admin\\OrderController@detail')->name('order_detail');
     });
 });
 

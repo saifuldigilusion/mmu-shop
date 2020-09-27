@@ -102,6 +102,13 @@
             //        'csv', 'print',
             //],
             ajax: "{{ route('order_detail', ['orderId' => $order->id]) }}",
+            ajax: {
+                'url':'{{ route('order_detail', ['orderId' => $order->id]) }}',
+                'type': 'POST',
+                'headers': {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            },
             //order: [[0, 'desc']],
             //pageLength: 25,
             columns: [
