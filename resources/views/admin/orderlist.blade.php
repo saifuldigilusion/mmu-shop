@@ -47,7 +47,14 @@ $(function () {
         buttons: [
                 'csv', 'print',
         ],
-        ajax: "{{ route('order_list') }}",
+        //ajax: "{{ route('order_list') }}",
+        ajax: {
+            'url':'{{ route('order_list') }}',
+            'type': 'POST',
+            'headers': {
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            }
+        },
         order: [[0, 'desc']],
         pageLength: 25,
         columns: [
