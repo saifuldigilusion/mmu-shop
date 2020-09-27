@@ -13,9 +13,12 @@
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^6.3",
         "hardevine/shoppingcart": "^2.9",
+        "jeroennoten/laravel-adminlte": "^3.4",
         "laravel/framework": "^7.24",
         "laravel/tinker": "^2.0",
-        "rinvex/laravel-bookings": "^4.1"
+        "laravel/ui": "2.*",
+        "rinvex/laravel-bookings": "^4.1",
+        "yajra/laravel-datatables-oracle": "~9.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

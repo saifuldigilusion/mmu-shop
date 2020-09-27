@@ -38,3 +38,15 @@ Route::post('/reservation/update/byorder', 'Booking@bookSubmitByOrder')->name('b
 
 Route::get('/test/senangpay/552153622504722', 'ShoppingCart@senangpay')->name('test_senangpay');
 Route::get('/test/sendmail', 'Test@sendmail')->name('test_mail');
+//Auth::routes(['register' => false]);
+Auth::routes();
+
+Route::prefix('admin')->group(function () {
+    Route::group(['middleware' => ['web', 'auth']], function () {
+        Route::get('/dashboard', 'Admin\\DashboardController@index')->name('dashboard');
+        Route::get('/order/list', 'Admin\\OrderController@list')->name('order_list');
+        Route::get('/order/detail/{orderId}', 'Admin\\OrderController@detail')->name('order_detail');
+    });
+});
+
+//Route::get('/home', 'HomeController@index')->name('home');

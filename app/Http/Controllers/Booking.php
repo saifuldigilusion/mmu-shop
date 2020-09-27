@@ -32,7 +32,7 @@ class Booking extends Controller
                     if($product->booking) {
                         $schedule = Schedule::find($product->schedule_id);
                         $schedules[$orderItem->id] = $schedule;
-                        $scheduleSlot = ScheduleSlot::where('schedule_id', $schedule->id)->where('available', 1)->get();
+                        $scheduleSlot = ScheduleSlot::where('schedule_id', $schedule->id)->where('available', 1)->where('start_date', '>=', date('Y-m-d'))->get();
                         $scheduleSlots[$orderItem->id] = $scheduleSlot;
                     }
                     $booking = Book::where('order_id', $order->id)->where('order_item_id', $orderItem->id)->first();
@@ -72,6 +72,7 @@ class Booking extends Controller
                 if($scheduleSlot) {
                     $dt = date_format(date_create($scheduleSlot->start_date . " " . $scheduleSlot->start_time),"D d/m/Y H:i:s"); 
                     if($scheduleSlot->available) {
+                        
                         $schedule = Schedule::find($scheduleId);
                         $orderItem = OrderItem::find($orderItemId);
 
@@ -95,15 +96,20 @@ class Booking extends Controller
                         $booking->bookingid = strtoupper(dechex($bookingId));
                         $booking->save();
 
-                        $scheduleSlot->qty_taken = $scheduleSlot->qty_taken + 1;
+                        $scheduleSlot->qty_taken = $scheduleSlot->qty_taken + $orderItem->qty;;
                         if($scheduleSlot->qty_taken >= $scheduleSlot->qty_avai) {
                             $scheduleSlot->available = 0;
                         }
                         $scheduleSlot->save();
 
-                        if(config('mmucnerfy.salesEmailEnable')) {
+                        if(config('mmucnergy.salesEmailEnable')) {
                             $saleContact = config('mmucnergy.salesContact', '');
-                            Mail::to($order->email)->bcc($saleContact)->send(new BookingReceived($order, $orderItem, $schedule, $scheduleSlot, $booking));
+                            try {
+                                Mail::to($order->email)->bcc($saleContact)->send(new BookingReceived($order, $orderItem, $schedule, $scheduleSlot, $booking));
+                            }
+                            catch(\Throwable $e) {
+                                report($e);
+                            }
                         }
                         return view('shop.bookingreceived', compact('order', 'orderItem', 'schedule', 'scheduleSlot', 'booking'));
                     }
