@@ -34,7 +34,7 @@
             Product Detail
           </div>
           <div class="card-body">
-            {{ $product->long_description }}
+            {!! $product->long_description !!}
           </div>
           <div class="card-footer">
             <a href="/cart/add?id={{ $product->id }}" class="btn btn-buy"> Buy </a>

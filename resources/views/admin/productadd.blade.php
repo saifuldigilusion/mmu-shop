@@ -113,9 +113,11 @@
 
 @section('css')
     <link rel="stylesheet" href="/css/admin_custom.css">
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 @stop
 
 @section('js')
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script>
 
 (function() {
@@ -136,6 +138,10 @@ form.classList.add('was-validated');
 }, false);
 })();
 
+$(document).ready(function() {
+  $('#long_description').summernote();
+});
+
 function deleteRecord(id) {
         if(confirm('Delete this record?')) {
         var form = document.createElement('form');
@@ -152,7 +158,7 @@ function deleteRecord(id) {
         }
         form.submit();
     }
-      }
+}
 
 </script>
 @stop
