@@ -14,7 +14,7 @@ class OrderController extends Controller
     public function list(Request $request) {
         if ($request->ajax()) {
             $data = Order::latest()->get();
-            return Datatables::of($data)
+            return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function($row){
                 $btn = '<a href="javascript:void(0)" class="edit btn btn-success btn-sm">Edit</a> <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
@@ -25,6 +25,22 @@ class OrderController extends Controller
         }
 
         return view('admin.orderlist');
+    }
+
+    public function itemList(Request $request) {
+        if ($request->ajax()) {
+            $data = OrderItem::latest()->get();
+            return DataTables::of($data)
+            ->addIndexColumn()
+            ->addColumn('a_booking', function($row){
+                return $row->booking ? "Yes": "No";
+            //    return $btn;
+            })
+            ->rawColumns(['a_booking'])
+            ->make(true);
+        }
+
+        return view('admin.orderitemlist');
     }
 
     public function detail(Request $request, $orderId) {

@@ -128,6 +128,7 @@ class ShoppingCart extends Controller
             foreach($items as $item) {
                 $oi = new OrderItem();
                 $oi->order_id = $order->id;
+                $oi->orderid = $order->orderid;
                 $oi->product_id = $item->id;
                 $oi->name = $item->name;
                 $oi->description = $item->options["description"];

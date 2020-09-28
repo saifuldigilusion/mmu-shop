@@ -45,8 +45,26 @@ Route::redirect('/admin', '/login');
 Route::prefix('admin')->group(function () {
     Route::group(['middleware' => ['web', 'auth']], function () {
         Route::get('/dashboard', 'Admin\\DashboardController@index')->name('dashboard');
+        
         Route::match(array('GET','POST'), '/order/list', 'Admin\\OrderController@list')->name('order_list');
+        Route::match(array('GET','POST'), '/order/itemlist', 'Admin\\OrderController@itemList')->name('orderitem_list');
         Route::match(array('GET','POST'), '/order/detail/{orderId}', 'Admin\\OrderController@detail')->name('order_detail');
+        
+        Route::get('/media', 'Admin\\MediaManagerController@index')->name('media');
+        
+        Route::match(array('GET','POST'), '/carousel/list', 'Admin\\CarouselController@list')->name('carousel_list');
+        Route::match(array('GET','POST'), '/carousel/add', 'Admin\\CarouselController@add')->name('carousel_add');
+        Route::match(array('GET','POST'), '/carousel/edit/{id}', 'Admin\\CarouselController@edit')->name('carousel_edit');
+        Route::post('/carousel/delete', 'Admin\\CarouselController@delete')->name('carousel_delete');
+
+        Route::match(array('GET','POST'), '/booking/list', 'Admin\\BookingController@list')->name('booking_list');
+
+        Route::match(array('GET','POST'), '/product/list', 'Admin\\ProductController@list')->name('product_list');
+        Route::match(array('GET','POST'), '/product/add', 'Admin\\ProductController@add')->name('product_add');
+        Route::match(array('GET','POST'), '/product/edit/{id}', 'Admin\\ProductController@edit')->name('product_edit');
+        Route::post('/product/delete', 'Admin\\ProductController@delete')->name('product_delete');
+
+        Route::match(array('GET','POST'), '/schedule/list', 'Admin\\ScheduleController@list')->name('schedule_list');
     });
 });
 

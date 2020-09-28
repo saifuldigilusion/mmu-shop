@@ -256,6 +256,11 @@ return [
             'url'  => 'admin/order/list',
             'icon' => 'fas fa-fw fa-bars',
         ],
+        [
+            'text' => 'Item List',
+            'url'  => 'admin/order/itemlist',
+            'icon' => 'fas fa-fw fa-bars',
+        ],
         ['header' => 'Bookings'],
         [
             'text' => 'List',
@@ -285,6 +290,11 @@ return [
             'icon' => 'fas fa-fw fa-plus',
         ],
         ['header' => 'Sites'],
+        [
+            'text' => 'Media Manager',
+            'url'  => 'admin/media',
+            'icon' => 'fas fa-fw fa-image',
+        ],
         [
             'text' => 'Carousel',
             'url'  => 'admin/carousel/list',

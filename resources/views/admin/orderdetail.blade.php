@@ -101,9 +101,9 @@
             //buttons: [
             //        'csv', 'print',
             //],
-            ajax: "{{ route('order_detail', ['orderId' => $order->id]) }}",
+            //ajax: "{{ route('order_detail', ['orderId' => $order->id]) }}",
             ajax: {
-                'url':'{{ route('order_detail', ['orderId' => $order->id]) }}',
+                'url':"{{ route('order_detail', ['orderId' => $order->id]) }}",
                 'type': 'POST',
                 'headers': {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -120,7 +120,7 @@
                 {data: 'a_booking', name: 'a_booking', orderable: false, searchable: false},
             ]
         });
-        table.buttons().container().appendTo( $('.col-sm-6:eq(0)', table.table().container() ) );
+        //table.buttons().container().appendTo( $('.col-sm-6:eq(0)', table.table().container() ) );
       });
         
 </script>
