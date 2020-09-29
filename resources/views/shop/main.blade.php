@@ -43,7 +43,12 @@
 
           <div class="col-lg-4 col-md-6 mb-4">
             <div class="card h-100">
-              <a href="/product/{{ $product->id }}"><img class="card-img-top" src="{{ $product->image }}" alt=""></a>
+              <a href="/product/{{ $product->id }}" class="img-hover">
+                <img class="card-img-top image-hover" src="{{ $product->image }}" alt="">
+                <div class="img-hover-middle">
+                  <div class="img-hover-text">More details..</div>
+                </div>
+              </a>
               <div class="card-body">
                 <h4 class="card-title">
                   <a href="/product/{{ $product->id }}">{{ $product->name }}</a>
