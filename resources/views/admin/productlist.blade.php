@@ -11,6 +11,8 @@
         <thead>
             <tr>
                 <th>No</th>
+                <th>Category</th>
+                <th>Order</th>
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
@@ -57,11 +59,13 @@ $(function () {
             pageLength: 25,
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {data: 'category', name: 'category', searchable: true, orderable: true},
+                {data: 'order', name: 'order', searchable: false, orderable: true},
                 {data: 'name', name: 'name', searchable: true, orderable: true},
                 {data: 'description', name: 'description', searchable: false, orderable: false},
                 {data: 'price', name: 'price', searchable: false, orderable: false},
                 {data: 'rrp_price', name: 'rrp_price', orderable: false, searchable: false},
-                {data: 'available', name: 'available', orderable: false, searchable: false},
+                {data: 'a_enable', name: 'a_enable', orderable: false, searchable: false},
                 {data: 'action', name: 'action', orderable: false,searchable: false},
             ]
         });

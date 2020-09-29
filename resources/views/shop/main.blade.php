@@ -39,6 +39,7 @@
         </div>
 
         <div class="row">
+          @if($products->count())
             @foreach ($products as $product)
 
           <div class="col-lg-4 col-md-6 mb-4">
@@ -74,6 +75,13 @@
           </div>
 
             @endforeach
+          @else
+          <div class="col text-center">
+            No item available. 
+            <br>
+            &nbsp;
+          </div>
+          @endif
             
         </div>
         <!-- /.row -->
@@ -83,7 +91,19 @@
 
     </div>
     <!-- /.row -->
-
+    <div class="row mb-5">
+      <div class="col-md-12 text-center">
+        @php
+        $a = array();
+        foreach($categories as $c) {
+          $a_ = strtolower(str_replace(' ', '', $c->name));
+          $a[] = '<a href="/category/' . $a_ . '">' . $c->name . '</a>';
+        }
+        $l = implode(' | ', $a);
+        print $l;
+        @endphp
+      </div>
+    </div>
   </div>
   <!-- /.container -->
 @endsection

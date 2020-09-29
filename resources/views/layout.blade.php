@@ -30,7 +30,7 @@
     <div class="container">
       <a class="navbar-brand" href="/shop"><img src="/img/mmu-cnergy-white.png" alt="logo" style="display: inline-block;"/><span style="display: inline-block;">Shop</span></a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"><i class="fa fa-shopping-cart text-white" aria-hidden="true"></i></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">

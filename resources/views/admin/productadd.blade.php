@@ -16,6 +16,8 @@
  $available = 0;
  $booking = 0;
  $schedule_id = 0;
+ $category_id = 1;
+ $order = 0;
 
  $edit = false;
  if($product !== null) {
@@ -30,6 +32,8 @@
     $available = $product->available;
     $booking = $product->booking;
     $schedule_id = $product->schedule_id;
+    $category_id = $product->category_id;
+    $order = $product->order;
 
     $edit = true;
  }   
@@ -46,6 +50,18 @@
             @csrf
             <input type="hidden" name="id" value="{{ $id }}">
             <div class="card-body">
+                <div class="form-group row">
+                    <label for="category_id">Category</label>
+                    <select class="custom-select" id="category_id" name="category_id">
+                        @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{ $category->id == $category_id ? "selected": "" }}>{{ $category->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <label for="order">Order</label>
+                    <input type="number" class="form-control" id="order" name="order" placeholder="" value="{{ $order }}">
+                </div>
                 <div class="form-group row">
                     <label for="name">Name</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="" value="{{ $name }}" required>

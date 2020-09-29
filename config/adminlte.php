@@ -267,6 +267,12 @@ return [
             'url'  => 'admin/booking/list',
             'icon' => 'fas fa-fw fa-bars',
         ],
+        ['header' => 'Category'],
+        [
+            'text' => 'List',
+            'url'  => 'admin/category/list',
+            'icon' => 'fas fa-fw fa-bars',
+        ],
         ['header' => 'Products'],
         [
             'text' => 'List',

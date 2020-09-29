@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
 use App\Http\Controllers\Controller;
 use App\OrderItem;
 use App\Product;
@@ -14,15 +15,30 @@ class ProductController extends Controller
     //
     public function list(Request $request) {
         if ($request->ajax()) {
-            $data = Product::latest()->get();
+            //$data = Product::latest()->get();
+            $data = Product::latest()
+            ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
+            ->select(
+                'products.id as id',
+                'products.name as name', 
+                'products.description as description',
+                'products.price as price',
+                'products.rrp_price as rrp_price',
+                'products.available as available',
+                'products.order as order',
+                'categories.name as category'
+            )->get();
             return DataTables::of($data)
             ->addIndexColumn()
+            ->addColumn('a_enable', function($row){
+                return $row->available ? "Yes": "No";
+            })
             ->addColumn('action', function($row){
                 // route('booking_edit', [$row->id])
                 $btn = '<a href="' . route('product_edit', [$row->id]) .'"><i class="fas fa-fw fa-sticky-note"></i></a></a>';
                 return $btn;
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['action', 'a_enable'])
             ->make(true);
         }
 
@@ -48,21 +64,24 @@ class ProductController extends Controller
             $product->available = $request->input('available');
             $product->schedule_id = $request->input('schedule_id');
             $product->booking = $product->schedule_id ? 1:0;
+            $product->category_id = $request->input('category_id');
+            $product->order = $request->input('order');
 
             $product->save();
             return view('admin.productlist');
         }
 
         $schedules = Schedule::where('available', 1)->get();
-
-        return view('admin.productadd', compact('product', 'schedules'));
+        $categories = Category::get();
+        return view('admin.productadd', compact('product', 'schedules', 'categories'));
     }
 
     public function edit(Request $request, $id) {
         $product = Product::find($id);
         if($product) {
             $schedules = Schedule::where('available', 1)->get();
-            return view('admin.productadd', compact('product','schedules'));
+            $categories = Category::get();
+            return view('admin.productadd', compact('product','schedules', 'categories'));
         }
         $errorMsg = "Not found";
         return view('admin.error', compact('errorMsg'));

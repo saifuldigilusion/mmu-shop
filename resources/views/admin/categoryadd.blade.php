@@ -1,23 +1,17 @@
 @extends('adminlte::page')
 
 @section('content_header')
-    <h1>Carousel</h1>
+    <h1>Category</h1>
 @stop
 
 @php
  $id = 0;
- $image = "";
- $title = "";
- $description = "";
- $active = 0;
+ $name = "";
 
  $edit = false;
- if($carousel !== null) {
-    $id = $carousel->id;
-    $image = $carousel->image;
-    $title = $carousel->title;
-    $description = $carousel->description;
-    $active = $carousel->active;
+ if($category !== null) {
+    $id = $category->id;
+    $name = $category->name;
 
     $edit = true;
  }   
@@ -28,39 +22,24 @@
     <div class="col-md-6">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Carousel Detail</h3>
+                <h3 class="card-title">Category Detail</h3>
             </div>
-            <form class="form-horizontal needs-validation" id="form" method="POST" action="{{ route('carousel_add') }}" novalidate>
+            <form class="form-horizontal needs-validation" id="form" method="POST" action="{{ route('category_add') }}" novalidate>
             @csrf
             <input type="hidden" name="id" value="{{ $id }}">
             <div class="card-body">
                 <div class="form-group row">
-                    <label for="image">Image URL</label>
-                    <input type="text" class="form-control" id="image" name="image" placeholder="Get image URL from Media Manager" value="{{ $image }}" required>
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="Category name" value="{{ $name }}" required>
                     <div class="invalid-feedback">
-                        Image URL required. e.g. https://to-image
+                        Please insert category name
                     </div>
-                </div>
-                <div class="form-group row">
-                    <label for="title">Title</label>
-                    <input type="text" class="form-control" id="title" name="title" value="{{ $title }}" placeholder="Insert title">
-                </div>
-                <div class="form-group row">
-                    <label for="description">Description</label>
-                    <input type="text" class="form-control" id="description" name="description" value="{{ $description }}" placeholder="Insert description">
-                </div>
-                <div class="form-group row">
-                    <label for="active">Enable</label>
-                    <select class="custom-select" id="active" name="active">
-                        <option value="1" {{ $active ? "selected": ""}}>Yes</option>
-                        <option value="0" {{ $active ? "": "selected"}}>No</option>
-                    </select>
                 </div>
             </div>
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <div class="float-right">
-                <a href="{{ route('carousel_list') }}" class="btn btn-default">List</a>
+                <a href="{{ route('category_list') }}" class="btn btn-default">List</a>
                 @if($edit)
                     <a href="javascript:deleteRecord({{ $id }})" class="btn btn-default">Delete</a>
                 @endif
@@ -103,7 +82,7 @@ function deleteRecord(id) {
         var form = document.createElement('form');
         document.body.appendChild(form);
         form.method = 'post';
-        form.action = '{{ route("carousel_delete") }}';
+        form.action = '{{ route("category_delete") }}';
         data = { text: 'delete', _token: $('meta[name="csrf-token"]').attr('content'), id: id}
         for (var name in data) {
             var input = document.createElement('input');

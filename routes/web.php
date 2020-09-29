@@ -18,8 +18,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 */
-Route::get('/', 'Shop@show')->name('shop');
+Route::get('/', 'Shop@show')->name('main');
 Route::get('/shop', 'Shop@show')->name('shop');
+Route::get('/category/{category}', 'Shop@showCategory')->name('shop_category');
 Route::get('/product/{productId}', 'Shop@productDetail')->name('product-detail');
 
 Route::get('/cart', 'ShoppingCart@show')->name('cart_show');
@@ -56,6 +57,11 @@ Route::prefix('admin')->group(function () {
         Route::match(array('GET','POST'), '/carousel/add', 'Admin\\CarouselController@add')->name('carousel_add');
         Route::match(array('GET','POST'), '/carousel/edit/{id}', 'Admin\\CarouselController@edit')->name('carousel_edit');
         Route::post('/carousel/delete', 'Admin\\CarouselController@delete')->name('carousel_delete');
+
+        Route::match(array('GET','POST'), '/category/list', 'Admin\\CategoryController@list')->name('category_list');
+        Route::match(array('GET','POST'), '/category/add', 'Admin\\CategoryController@add')->name('category_add');
+        Route::match(array('GET','POST'), '/category/edit/{id}', 'Admin\\CategoryController@edit')->name('category_edit');
+        Route::post('/category/delete', 'Admin\\CategoryController@delete')->name('category_delete');
 
         Route::match(array('GET','POST'), '/booking/list', 'Admin\\BookingController@list')->name('booking_list');
 
