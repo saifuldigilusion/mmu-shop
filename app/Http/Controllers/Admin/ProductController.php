@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function list(Request $request) {
         if ($request->ajax()) {
             //$data = Product::latest()->get();
-            $data = Product::latest()
+            $data = Product::latest('products.created_at')
             ->leftJoin('categories', 'products.category_id', '=', 'categories.id')
             ->select(
                 'products.id as id',
