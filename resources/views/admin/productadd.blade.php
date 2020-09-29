@@ -90,6 +90,15 @@
                     <input type="text" class="form-control" id="rrp_price" name="rrp_price" value="{{ $rrp_price }}" placeholder="0.00">
                 </div>
                 <div class="form-group row">
+                    <label for="schedule_id">Booking Schedule</label>
+                    <select class="custom-select" id="schedule_id" name="schedule_id">
+                        <option value="0">No Booking Required</option>
+                        @foreach($schedules as $schedule) 
+                        <option value="{{ $schedule->id }}" {{ $schedule_id == $schedule->id ? "selected":""}}>{{ $schedule->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group row">
                     <label for="available">Enable</label>
                     <select class="custom-select" id="available" name="available">
                         <option value="1" {{ $available ? "selected": ""}}>Yes</option>
@@ -101,7 +110,9 @@
                 <button type="submit" class="btn btn-primary">Submit</button>
                 <div class="float-right">
                 <a href="{{ route('product_list') }}" class="btn btn-default">List</a>
-                <a href="javascript:deleteRecord({{ $id }})" class="btn btn-default">Delete</a>
+                @if($edit)
+                    <a href="javascript:deleteRecord({{ $id }})" class="btn btn-default">Delete</a>
+                @endif
                 </div>
             </div>
             </form>

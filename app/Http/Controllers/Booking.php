@@ -32,7 +32,7 @@ class Booking extends Controller
                     if($product->booking) {
                         $schedule = Schedule::find($product->schedule_id);
                         $schedules[$orderItem->id] = $schedule;
-                        $scheduleSlot = ScheduleSlot::where('schedule_id', $schedule->id)->where('available', 1)->where('start_date', '>=', date('Y-m-d'))->get();
+                        $scheduleSlot = ScheduleSlot::where('schedule_id', $schedule->id)->where('available', 1)->where('qty_taken', '<', 'qty_avai')->where('start_date', '>=', date('Y-m-d'))->get();
                         $scheduleSlots[$orderItem->id] = $scheduleSlot;
                     }
                     $booking = Book::where('order_id', $order->id)->where('order_item_id', $orderItem->id)->first();
@@ -71,7 +71,7 @@ class Booking extends Controller
                 $scheduleSlot = ScheduleSlot::find($slotId);
                 if($scheduleSlot) {
                     $dt = date_format(date_create($scheduleSlot->start_date . " " . $scheduleSlot->start_time),"D d/m/Y H:i:s"); 
-                    if($scheduleSlot->available) {
+                    if($scheduleSlot->available and ($scheduleSlot->qty_taken < $scheduleSlot->qty_avai)) {
                         
                         $schedule = Schedule::find($scheduleId);
                         $orderItem = OrderItem::find($orderItemId);
@@ -96,10 +96,7 @@ class Booking extends Controller
                         $booking->bookingid = strtoupper(dechex($bookingId));
                         $booking->save();
 
-                        $scheduleSlot->qty_taken = $scheduleSlot->qty_taken + $orderItem->qty;;
-                        if($scheduleSlot->qty_taken >= $scheduleSlot->qty_avai) {
-                            $scheduleSlot->available = 0;
-                        }
+                        $scheduleSlot->qty_taken = $scheduleSlot->qty_taken + $orderItem->qty;
                         $scheduleSlot->save();
 
                         if(config('mmucnergy.salesEmailEnable')) {

@@ -60,7 +60,10 @@
                 </p>
               </div>
               <div class="card-footer">
-                <a href="/cart/add?id={{ $product->id }}" class="btn btn-buy"> Buy </a>
+                <a href="/cart/add?id={{ $product->id }}" class="btn btn-buy"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
+                <div class="float-right">
+                  <a href="{{ route('product-detail', [$product->id]) }}" class="btn btn-default">More</a>
+                  </div>
               </div>
             </div>
           </div>

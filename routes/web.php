@@ -65,6 +65,12 @@ Route::prefix('admin')->group(function () {
         Route::post('/product/delete', 'Admin\\ProductController@delete')->name('product_delete');
 
         Route::match(array('GET','POST'), '/schedule/list', 'Admin\\ScheduleController@list')->name('schedule_list');
+        Route::match(array('GET','POST'), '/schedule/add', 'Admin\\ScheduleController@add')->name('schedule_add');
+        Route::match(array('GET','POST'), '/schedule/detail/{scheduleId}', 'Admin\\ScheduleController@detail')->name('schedule_detail');
+        Route::post('/schedule/delete', 'Admin\\ScheduleController@delete')->name('schedule_delete');
+        
+        Route::match(array('GET','POST'), '/scheduleslot/add/{scheduleId}/{scheduleSlotId}', 'Admin\\ScheduleController@addSlot')->name('scheduleslot_add');
+        Route::post('/scheduleslot/delete', 'Admin\\ScheduleController@deleteSlot')->name('scheduleslot_delete');
     });
 });
 

@@ -24,7 +24,7 @@
               @endif
             </h4>
             <p class="card-text">{{ $product->description }} </p>
-            <a href="/cart/add?id={{ $product->id }}" class="btn btn-buy"> Buy </a>
+            <a href="/cart/add?id={{ $product->id }}" class="btn btn-buy"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
           </div>
         </div>
         <!-- /.card -->
@@ -37,7 +37,7 @@
             {!! $product->long_description !!}
           </div>
           <div class="card-footer">
-            <a href="/cart/add?id={{ $product->id }}" class="btn btn-buy"> Buy </a>
+            <a href="/cart/add?id={{ $product->id }}" class="btn btn-buy"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
           </div>
         </div>
         <!-- /.card -->

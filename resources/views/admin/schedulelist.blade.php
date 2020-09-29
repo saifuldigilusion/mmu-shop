@@ -12,6 +12,7 @@
             <tr>
                 <th>No</th>
                 <th>Name</th>
+                <th>Enable</th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
@@ -40,7 +41,13 @@ $(function () {
             searching: true,
             paging: true,
             buttons: [
-                    'csv', 'print',
+                //'csv', 'print',
+                {
+                text: ' New ',
+                action: function(e, dt, node, config) {
+                    window.location.href = "{{ route('schedule_detail',['scheduleId' => '0',]) }}";
+                }
+                },
             ],
             ajax: {
                 'url':"{{ route('schedule_list') }}",
@@ -54,6 +61,7 @@ $(function () {
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'name', name: 'name', searchable: true, orderable: true},
+                {data: 'a_enable', name: 'a_enable', orderable: false, searchable: false},
                 {data: 'action', name: 'action', orderable: false,searchable: false},
             ]
         });
