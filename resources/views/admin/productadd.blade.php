@@ -18,6 +18,8 @@
  $schedule_id = 0;
  $category_id = 1;
  $order = 0;
+ $selfcollect = 0;
+ $delivery = 0;
 
  $edit = false;
  if($product !== null) {
@@ -34,6 +36,8 @@
     $schedule_id = $product->schedule_id;
     $category_id = $product->category_id;
     $order = $product->order;
+    $selfcollect = $product->selfcollect;
+    $delivery = $product->delivery;
 
     $edit = true;
  }   
@@ -114,6 +118,28 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="form-group row">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="selfcollect" id="selfcollect" {{ $selfcollect ? "checked":""}}><label for="selfcollect" class="form-check-label">Self Collect Available</label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="delivery" id="delivery" {{ $delivery ? "checked": ""}}><label for="delivery" class="form-check-label">Delivery Available</label>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="">Delivery Cost</label>
+                </div>
+                @foreach($deliveryCostName as $d => $v) 
+                <div class="form-group row">
+                    <div class="form-check">
+                    <label class="form-check-label" for="{{ $d }}">{{ $d }}</label>
+                    <input class="form-control" type="number" step="0.01" value="{{ $productDeliveryCost[$d] }}" name="p-{{ $d }}">
+                    </div>
+                </div>
+                @endforeach
+                
                 <div class="form-group row">
                     <label for="available">Enable</label>
                     <select class="custom-select" id="available" name="available">

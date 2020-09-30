@@ -6,6 +6,7 @@ use App\Category;
 use App\Http\Controllers\Controller;
 use App\OrderItem;
 use App\Product;
+use App\ProductDeliveryCost;
 use App\Schedule;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -47,6 +48,7 @@ class ProductController extends Controller
 
     public function add(Request $request) {
         $product = null;
+        $productDeliveryCost = null;
         if($request->isMethod('post')) {
             if($request->input('id')) {
                 $product = Product::find($request->input('id'));
@@ -66,14 +68,32 @@ class ProductController extends Controller
             $product->booking = $product->schedule_id ? 1:0;
             $product->category_id = $request->input('category_id');
             $product->order = $request->input('order');
+            $product->selfcollect = $request->input('selfcollect') == "on" ? 1:0;
+            $product->delivery = $request->input('delivery') == "on" ? 1:0;
 
             $product->save();
+
+            ProductDeliveryCost::where('product_id', $product->id)->delete();
+            if($product->delivery) {
+                foreach(config('mmucnergy.deliveryCostName') as $n => $v) {
+                    $productDeliveryCost = new ProductDeliveryCost;
+                    $productDeliveryCost->name = $n;
+                    $productDeliveryCost->price = $request->input('p-' . str_replace(' ', '_', $n));
+                    $productDeliveryCost->product_id = $product->id;
+
+                    $productDeliveryCost->save();
+                }
+            }
+            
             return view('admin.productlist');
         }
 
         $schedules = Schedule::where('available', 1)->get();
         $categories = Category::get();
-        return view('admin.productadd', compact('product', 'schedules', 'categories'));
+        $deliveryCostName = config('mmucnergy.deliveryCostName');
+        $productDeliveryCost = $this->getProductDeliveryCost($product);
+        
+        return view('admin.productadd', compact('product', 'productDeliveryCost', 'schedules', 'categories', 'deliveryCostName'));
     }
 
     public function edit(Request $request, $id) {
@@ -81,10 +101,24 @@ class ProductController extends Controller
         if($product) {
             $schedules = Schedule::where('available', 1)->get();
             $categories = Category::get();
-            return view('admin.productadd', compact('product','schedules', 'categories'));
+            $deliveryCostName = config('mmucnergy.deliveryCostName');
+            $productDeliveryCost = $this->getProductDeliveryCost($product);
+            return view('admin.productadd', compact('product', 'productDeliveryCost', 'schedules', 'categories', 'deliveryCostName'));
         }
         $errorMsg = "Not found";
         return view('admin.error', compact('errorMsg'));
+    }
+
+    protected function getProductDeliveryCost($product) {
+        //$deliveryCostName = config('deliveryCostName');
+        $r = config('mmucnergy.deliveryCostName');
+        if($product != null) {
+            $productDeliveryCost = ProductDeliveryCost::where('product_id', $product->id)->get();
+            foreach($productDeliveryCost as $d) {
+                $r[$d->name] = $d->price;
+            }
+        }
+        return $r;
     }
 
     public function delete(Request $request) {
