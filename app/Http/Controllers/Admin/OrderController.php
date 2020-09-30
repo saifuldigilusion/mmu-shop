@@ -6,7 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Order;
 use App\OrderItem;
-use DataTables;
+use Yajra\DataTables\DataTables;
+use App\Libraries\Helper;
 
 class OrderController extends Controller
 {
@@ -25,6 +26,35 @@ class OrderController extends Controller
         }
 
         return view('admin.orderlist');
+    }
+
+    public function edit(Request $request) {
+        $order = null;
+        if($request->isMethod('post')) {
+            if($request->input('id')) {
+                $order = Order::find($request->input('id'));
+                if($order) {
+                    $order->status = $request->input('status');
+                    $order->payment_channel = $request->input('payment_channel');
+                    $order->payment_transactionid = $request->input('payment_transactionid');
+
+                    $order->save();
+
+                    //$orderItem = OrderItem::where('order_id', $order->id)->get();
+                    //return view('admin.orderdetail', compact('order', 'orderItem'));
+
+                    return redirect()->back()->with(['message' => 'Order updated', 'alert' => 'alert-success']);
+
+                }
+                else {
+                    $errorMsg = "No order found.";
+                    return view('admin.error', compact('errorMsg'));
+                }
+            }
+        }
+
+        $errorMsg = "No order found.";
+        return view('admin.error', compact('errorMsg'));
     }
 
     public function itemList(Request $request) {
@@ -60,10 +90,12 @@ class OrderController extends Controller
         $order = Order::find($orderId);
         if($order) {
             $orderItem = OrderItem::where('order_id', $order->id)->get();
-            return view('admin.orderdetail', compact('order', 'orderItem'));
+            $statusOptions = Helper::getEnumValues('orders', 'status');
+            $paymentChannels = config('mmucnergy.paymentChannels');
+            return view('admin.orderdetail', compact('order', 'orderItem', 'statusOptions', 'paymentChannels'));
         }
         
         $errorMsg = "No order found.";
-        return view('admin.error');
+        return view('admin.error', compact('errorMsg'));
     }
 }

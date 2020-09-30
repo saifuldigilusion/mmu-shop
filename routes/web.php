@@ -50,7 +50,8 @@ Route::prefix('admin')->group(function () {
         Route::match(array('GET','POST'), '/order/list', 'Admin\\OrderController@list')->name('order_list');
         Route::match(array('GET','POST'), '/order/itemlist', 'Admin\\OrderController@itemList')->name('orderitem_list');
         Route::match(array('GET','POST'), '/order/detail/{orderId}', 'Admin\\OrderController@detail')->name('order_detail');
-        
+        Route::post('/order/edit', 'Admin\\OrderController@edit')->name('order_edit');
+
         Route::get('/media', 'Admin\\MediaManagerController@index')->name('media');
         
         Route::match(array('GET','POST'), '/carousel/list', 'Admin\\CarouselController@list')->name('carousel_list');

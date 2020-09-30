@@ -7,58 +7,76 @@
 @section('content')
 <div class="card">
     <div class="card-header bg-secondary">Order No {{ $order->orderid }}</div>
+    <form class="form-horizontal needs-validation" id="form" method="POST" action="{{ route('order_edit') }}" novalidate>
+    @csrf
+    <input type="hidden" name="id" value="{{ $order->id }}">
     <div class="card-body">
         <div class="row">
-        <div class="col col-md-6">
-            <dl class="param param-feature">
-                <dt>Date</dt>
-                <dd>{{ $order->created_at }}</dd>
-            </dl>
-            <dl class="param param-feature">
-                <dt>Item Count</dt>
-                <dd>{{ $order->item_count }}</dd>
-            </dl>
-            <dl class="param param-feature">
-                <dt>Amount</dt>
-                <dd>RM{{ $order->total }}</dd>
-            </dl>
-            <dl class="param param-feature">
-                <dt>Status</dt>
-                <dd>{{ $order->status }}</dd>
-            </dl>
-            <dl class="param param-feature">
-                <dt>Payment Channel</dt>
-                <dd>{{ $order->payment_channel }}</dd>
-            </dl>
-            <dl class="param param-feature">
-                <dt>Payment Trans ID</dt>
-                <dd>{{ $order->payment_transactionid }}</dd>
-            </dl>
-            <dl class="param param-feature">
-                <dt>Payment Message</dt>
-                <dd>{{ $order->payment_msg }}</dd>
-            </dl>
+            <div class="col col-md-6">
+                <dl class="param param-feature">
+                    <dt>Date</dt>
+                    <dd>{{ $order->created_at }}</dd>
+                </dl>
+                <dl class="param param-feature">
+                    <dt>Item Count</dt>
+                    <dd>{{ $order->item_count }}</dd>
+                </dl>
+                <dl class="param param-feature">
+                    <dt>Amount</dt>
+                    <dd>RM{{ $order->total }}</dd>
+                </dl>
+            </div>
+            <div class="col col-md-6">
+                <dl class="param param-feature">
+                    <dt>Name</dt>
+                    <dd>{{ $order->name }}</dd>
+                </dl>
+                <dl class="param param-feature">
+                    <dt>Email</dt>
+                    <dd>{{ $order->email }}</dd>
+                </dl>
+                <dl class="param param-feature">
+                    <dt>Phone</dt>
+                    <dd>{{ $order->phone }}</dd>
+                </dl>
+                <dl class="param param-feature">
+                    <dt>Student Id</dt>
+                    <dd>{{ $order->studentid }}</dd>
+                </dl>
+            </div>
         </div>
-        <div class="col col-md-6">
-            <dl class="param param-feature">
-                <dt>Name</dt>
-                <dd>{{ $order->name }}</dd>
-            </dl>
-            <dl class="param param-feature">
-                <dt>Email</dt>
-                <dd>{{ $order->email }}</dd>
-            </dl>
-            <dl class="param param-feature">
-                <dt>Phone</dt>
-                <dd>{{ $order->phone }}</dd>
-            </dl>
-            <dl class="param param-feature">
-                <dt>Student Id</dt>
-                <dd>{{ $order->studentid }}</dd>
-            </dl>
-        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group row">
+                    <label for="status">Status</label>
+                    <select class="custom-select" id="status" name="status">
+                        @foreach($statusOptions as $s)
+                        <option value="{{ $s }}" {{ $order->status == $s ? "selected": ""}}>{{ $s }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <label for="payment_channel">Payment Channel</label>
+                    <select class="custom-select" id="payment_channel" name="payment_channel">
+                        @foreach($paymentChannels as $s)
+                        <option value="{{ $s }}" {{ $order->payment_channel == $s ? "selected": ""}}>{{ $s }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group row">
+                    <label for="payment_transactionid">Payment Transaction ID</label>
+                    <input class="form-control" type="text" id="payment_transactionid" name="payment_transactionid" value="{{ $order->payment_transactionid }}" placeholder="">
+                </div>
+            </div>
         </div>
     </div>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary">Update</button>
+        <div class="float-right">
+        <a href="{{ route('order_list') }}" class="btn btn-default">List</a>
+        </div>
+    </div>
+    </form>
 </div>
 
 <div class="row">
