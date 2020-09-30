@@ -35,11 +35,21 @@ class Shop extends Controller
         $product = Product::find($productId);
         if($product) {
             if($product->available) {
-                return view('shop.product', compact('product'));
+                $category = $this->getProductCategory($product);
+                return view('shop.product', compact('product', 'category'));
             }
         }
 
         abort(404);
         
+    }
+
+    protected function getProductCategory($product) {
+        $category = Category::find($product->category_id);
+        if($category) {
+            return $category->name;
+        }
+
+        return "";
     }
 }

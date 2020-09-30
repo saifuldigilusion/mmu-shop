@@ -10,6 +10,10 @@
 
   <title>MMU Shop</title>
 
+  <link rel="icon" sizes="192x192" href="https://static.wixstatic.com/media/03f85b_83a125543edf4a48900cbf704d181a8f%7Emv2.png/v1/fill/w_32%2Ch_32%2Clg_1%2Cusm_0.66_1.00_0.01/03f85b_83a125543edf4a48900cbf704d181a8f%7Emv2.png">
+  <link rel="shortcut icon" href="https://static.wixstatic.com/media/03f85b_83a125543edf4a48900cbf704d181a8f%7Emv2.png/v1/fill/w_32%2Ch_32%2Clg_1%2Cusm_0.66_1.00_0.01/03f85b_83a125543edf4a48900cbf704d181a8f%7Emv2.png" type="image/png"/>
+  <link rel="apple-touch-icon" href="https://static.wixstatic.com/media/03f85b_83a125543edf4a48900cbf704d181a8f%7Emv2.png/v1/fill/w_32%2Ch_32%2Clg_1%2Cusm_0.66_1.00_0.01/03f85b_83a125543edf4a48900cbf704d181a8f%7Emv2.png" type="image/png"/>
+
   <!-- Bootstrap core CSS -->
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 

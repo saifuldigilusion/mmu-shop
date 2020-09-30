@@ -9,6 +9,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use App\Product;
 use App\Order;
 use App\OrderItem;
+use App\ProductDeliveryCost;
 use Exception;
 
 class ShoppingCart extends Controller
@@ -29,6 +30,14 @@ class ShoppingCart extends Controller
                     "options" => $product->toArray(),
                     "taxrate" => 0
                 );
+                if($product->delivery) {
+                    $productDeliveryCost = ProductDeliveryCost::where('product_id', $product->id)->get();
+                    $a = array();
+                    foreach($productDeliveryCost as $p) {
+                        $a[] = $p;
+                    }
+                    $item["options"]["delivery_cost"] = $a;
+                }
                 Cart::add($item);
             }
             else {
@@ -100,6 +109,56 @@ class ShoppingCart extends Controller
         return view('shop.cart', compact('items', 'error', 'count', 'total'));
     }
 
+    public function checkoutConfirm(Request $request) {
+
+        // store into db
+        if(Cart::count() > 0) {
+
+            $checkoutInfo = array();
+
+            $checkoutInfo["name"] = $request->input('name');
+            $checkoutInfo["email"]  = $request->input('email');
+            $checkoutInfo["phone"] = $request->input('phone');
+            $checkoutInfo["studentid"]  = $request->input('studentid');
+
+            $checkoutInfo["delivery"]  = 1 * ($request->input('delivery'));
+            $checkoutInfo["address"]  = $request->input('address');
+            $checkoutInfo["address2"]  = $request->input('address2');
+            $checkoutInfo["postcode"]  = $request->input('postcode');
+            $checkoutInfo["state"]  = $request->input('state');
+
+            //session(['checkoutinfo' => json_encode($checkoutInfo)]);
+            //Log::debug(json_encode($checkoutInfo));
+
+            $items = Cart::content();
+            $total = Cart::total();
+            $count = Cart::count();
+
+            $malaysiaStates = config('mmucnergy.malaysiaStates');
+            $eastWestMalaysia = $malaysiaStates[$checkoutInfo["state"]];
+
+            $deliveryCharges = array();
+            $totalDeliveryCharges = 0.00;
+            if($checkoutInfo["delivery"]) {
+                foreach($items as $i) {
+                    if($i->options["delivery"]) {
+                        $productDeliveryCost = ProductDeliveryCost::where('product_id', $i->id)->where('name', $eastWestMalaysia)->first();
+                        if($productDeliveryCost) {
+                            $deliveryCost = $productDeliveryCost->price * $i->qty;
+                            $totalDeliveryCharges = $totalDeliveryCharges + $deliveryCost;
+                            $deliveryCharges[$i->id] = $deliveryCost;
+                        }
+                    }
+                }
+            }
+            $error = null;
+            return view('shop.cartconfirm', compact('items', 'error', 'count', 'total', 'checkoutInfo', 'deliveryCharges', 'totalDeliveryCharges'));
+        }
+
+        $error = null;
+        return $this->view($error);
+    }
+
     public function checkout(Request $request) {
 
         // store into db
@@ -117,6 +176,12 @@ class ShoppingCart extends Controller
             $order->phone = $request->input('phone');
             $order->studentid = $request->input('studentid');
 
+            $order->delivery  = 1 * ($request->input('delivery'));
+            $order->address  = $request->input('address');
+            $order->address2  = $request->input('address2');
+            $order->postcode  = $request->input('postcode');
+            $order->state  = $request->input('state');
+
             // creating order ID
             $order->save();
 
@@ -124,6 +189,14 @@ class ShoppingCart extends Controller
             $order->orderid = strtoupper(dechex($orderId));
             $order->save();
 
+            $deliveryCharges = array();
+            $totalDeliveryCharges = 0.00;
+
+            $malaysiaStates = config('mmucnergy.malaysiaStates');
+            $eastWestMalaysia = "East Malaysia";
+            if($order->delivery) {
+                $eastWestMalaysia = $malaysiaStates[$order->state];
+            }
             $items = Cart::content();
             foreach($items as $item) {
                 $oi = new OrderItem();
@@ -137,8 +210,22 @@ class ShoppingCart extends Controller
                 $oi->qty = $item->qty;
                 $oi->booking = $item->options["booking"];
 
+                if($item->options["delivery"]) {
+                    $productDeliveryCost = ProductDeliveryCost::where('product_id', $item->id)->where('name', $eastWestMalaysia)->first();
+                    if($productDeliveryCost) {
+                        $deliveryCost = $productDeliveryCost->price * $item->qty;
+                        $totalDeliveryCharges = $totalDeliveryCharges + $deliveryCost;
+                        $deliveryCharges[$item->id] = $deliveryCost;
+
+                        $oi->shipping = $productDeliveryCost->price;
+                    }
+                }
+
                 $oi->save();
             }
+            $order->shipping = $totalDeliveryCharges;
+            $order->total = $order->total + $order->shipping;
+            $order->save();
 
             Cart::destroy();
 
@@ -149,7 +236,7 @@ class ShoppingCart extends Controller
             $hash = hash_hmac('SHA256', $str, $senangPaySecret);
             $directParam = array(
                 "detail" => $detail,
-                "amount" => $order->total,
+                "amount" => $order->total + $order->shipping,
                 "order_id" => $order->orderid,
                 "hash" => $hash,
                 "name" => $order->name,

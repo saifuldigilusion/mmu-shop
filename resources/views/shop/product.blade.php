@@ -15,6 +15,7 @@
         <div class="card mt-4">
           <img class="card-img-top img-fluid" src="{{ $product->image_big }}" alt="">
           <div class="card-body">
+            <a href="/category/{{ strtolower(str_replace(' ', '', $category)) }}" class="badge badge-secondary">{{ $category }}</a>
             <h3 class="card-title">{{ $product->name }}</h3>
             <h4>RM{{ $product->price }}
               @if ($product->rrp_price > 0.00) 

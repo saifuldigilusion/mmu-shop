@@ -10,7 +10,7 @@
 $itemDelivery = false;
 @endphp
 <div class="container mt-5">
-    <form id="form" method="POST" action="/cart/checkoutconfirm" class="needs-validation" novalidate>
+    <form id="form" method="POST" action="/cart/checkout" class="needs-validation" novalidate>
         @csrf
         <div class="card shopping-cart">
             <div class="card-header bg-secondary text-light">
@@ -35,38 +35,24 @@ $itemDelivery = false;
                         </span>
                         <p>
                           <span class="small">
-                        @if($item->options["selfcollect"])
-                          Self collect available.
-                        @endif
-                        @if($item->options["delivery"])
-                            @php
-                            $itemDelivery = true;
-                            @endphp
-                            Delivery charges to
-                            @foreach($item->options["delivery_cost"] as $d)
-                              {{ $d->name }} RM{{ $d->price }} , 
-                            @endforeach
+                        @if($deliveryCharges[$item->id])
+                          Delivery charges for {{ $item->qty }} items is RM{{ $deliveryCharges[$item->id] }}
                         @endif
                           </span>
                         </p>
                     </div>
                     <div class="col-12 col-sm-12 text-sm-center col-md-4 text-md-right row">
-                        <div class="col-3 col-sm-3 col-md-6 text-md-right" style="padding-top: 5px">
+                        <div class="col-4 col-sm-4 col-md-4 text-md-right" style="padding-top: 5px">
                             <h6><strong>{{ number_format($item->price, 2, '.', '') }} <span class="text-muted">x</span></strong></h6>
                         </div>
                         <div class="col-4 col-sm-4 col-md-4">
                             <div class="quantity">
-                                <!--<button type="button" value="+" class="plus" onclick=countAddRemove(this)>+</button> -->
-                                <input type="number" step="1" max="99" min="1" value="{{ $item->qty }}" title="Qty" class="qty"
-                                    size="4" data-product="{{ $item->rowId }}" onchange=updateCart(this)>
-                                <!-- <button type="button" value="-" class="minus" onclick=countAddRemove(this)>-</button> -->
+                              {{ $item->qty }}
                             </div>
                         </div>
-                        <div class="col-2 col-sm-2 col-md-2 text-right">
-                            <a href="/cart/remove?row={{ $item->rowId }}" class="btn btn-outline-danger btn-xs">
-                                <i class="fa fa-trash" aria-hidden="true"></i>
-                            </a>
-                        </div>
+                        <div class="col-4 col-sm-4 col-md-4 text-right">
+                          <h6><strong>{{ number_format($item->price * $item->qty, 2, '.', '') }}</strong></h6>
+                      </div>
                     </div>
                 </div>
                 <hr>
@@ -85,76 +71,49 @@ $itemDelivery = false;
         <div class="row mt-5">
 
             <div class="col-md-8 order-md-1">
-            <h4 class="mb-3">Please fill up below:</h4>
+            <h4 class="mb-3">Info:</h4>
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="name">Name</label>
-                  <input type="text" class="form-control" name="name" id="name" placeholder="Full name" value="" required>
-                  <div class="invalid-feedback">
-                    Please enter your full name
-                  </div>
+                  <input type="text" readonly class="form-control-plaintext font-weight-bold" id="name" name="name" value="{{ $checkoutInfo['name'] }}">
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="studentid">Student ID</label>
-                  <input type="text" class="form-control" name="studentid" id="studentid" placeholder="MMU Student ID" value="">
-                  <div class="invalid-feedback">
-                    Please enter your MMU Student ID.
-                  </div>
+                  <input type="text" readonly class="form-control-plaintext font-weight-bold" id="studentid" name="studentid" value="{{ $checkoutInfo['studentid'] }}">
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="phone">Phone</label>
-                  <input type="tel" class="form-control" name="phone" id="phone" placeholder="Phone no" value="" required>
-                  <div class="invalid-feedback">
-                    Please enter your contact no
-                  </div>
+                  <input type="text" readonly class="form-control-plaintext font-weight-bold" id="phone" name="phone" value="{{ $checkoutInfo['phone'] }}">
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="email">Email</label>
-                  <input type="email" class="form-control" name="email" id="email" placeholder="your@email.com" value="" required>
-                  <div class="invalid-feedback">
-                    Please enter a valid email address for receipt.
-                  </div>
+                  <input type="text" readonly class="form-control-plaintext font-weight-bold" id="email" name="email" value="{{ $checkoutInfo['email'] }}">
                 </div>
               </div>
 
-              @if($itemDelivery)
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="todeliver"><label for="todeliver" class="form-check-label">Ship my item(s)</label>
-                  <input type="hidden" name="delivery"  id="delivery" value="1">
-                  </div>
-                </div>
-              </div>
-              <div id="deliveryform" class="d-none">
+              @if($checkoutInfo["delivery"])
+              <input type="hidden" name="delivery"  id="delivery" value="1">
+              <div id="deliveryform" class="">
               <h4 class="mb-3">Delivery Address:</h4>
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="phone">Address</label>
-                  <input type="text" class="form-control" name="address" id="address" placeholder="Street Address" value="" required>
-                  <input type="text" class="form-control" name="address2" id="address2" placeholder="" value="" >
+                  <input type="text" readonly class="form-control-plaintext font-weight-bold" id="address" name="address" value="{{ $checkoutInfo["address"] }}">
+                  <input type="text" readonly class="form-control-plaintext font-weight-bold" id="address2" name="address2" value="{{  $checkoutInfo["address2"] }}">
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="postcode">Postcode</label>
-                  <input type="number" class="form-control" name="postcode" id="postcode" placeholder="" value="" required>
-                  <div class="invalid-feedback">
-                    Please enter a valid postcode.
-                  </div>
+                  <input type="text" readonly class="form-control-plaintext text-bold font-weight-bold" id="postcode" name="postcode" value="{{ $checkoutInfo["postcode"] }}">
                 </div>
               </div>
 
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="state">State</label>
-                  <select name="state" id="state" class="form-control" required>
-                    <option value=""></option>
-                    @foreach(Config::get('mmucnergy.malaysiaStates') as $s => $v)
-                      <option value="{{ $s }}">{{ $s }}</option>
-                    @endforeach
-                  </select>
+                  <input type="text" readonly class="form-control-plaintext font-weight-bold" id="state" name="state" value="{{ $checkoutInfo["state"] }}">
                 </div>
                 <div class="col-md-6 mb-3">
                  &nbsp;
@@ -167,13 +126,20 @@ $itemDelivery = false;
 
             <div class="col-md-4 order-md-2 mb-4">
             <ul class="list-group mb-3">
+                <li class="list-group-item d-flex justify-content-between ">
+                    <span>Sub Total (MYR)</span>
+                    <strong>{{ number_format($total, 2, '.', '') }}</strong>
+                </li>
+                <li class="list-group-item d-flex justify-content-between ">
+                  <span>Delivery Charges (MYR)</span>
+                  <strong>{{ number_format($totalDeliveryCharges, 2, '.', '') }}</strong>
+              </li>
                 <li class="list-group-item d-flex justify-content-between bg-secondary text-light">
                     <span>Total (MYR)</span>
-                    <strong>{{ $total }}</strong>
+                    <strong>{{ number_format($total + $totalDeliveryCharges, 2, '.', '') }}</strong>
                 </li>
-                <span class="small">excl. delivery</span>
             </ul>
-            <button class="btn btn-buy btn-lg btn-block" type="submit" {{ $count < 1 ? "disabled" : "" }} >Continue to checkout</button>
+            <button class="btn btn-buy btn-lg btn-block" type="submit" {{ $count < 1 ? "disabled" : "" }} >Checkout Now</button>
             </div>
         </div>
     </form>
@@ -243,14 +209,12 @@ form.classList.add('was-validated');
 
       @if($itemDelivery)
       (function() {
-        $('#todeliver').change(function() {
+        $('#checkbox1').change(function() {
           if(this.checked) {
-            $("#deliveryform").removeClass("d-none");
-            $("#delivery").val("1");
+            
           }
           else {
-            $("#deliveryform").addClass("d-none");
-            $("#delivery").val("0");
+
           }
         });
       })();

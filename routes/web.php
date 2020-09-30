@@ -29,6 +29,7 @@ Route::post('/cart/update', 'ShoppingCart@update')->name('cart_update');
 Route::get('/cart/list', 'ShoppingCart@list')->name('cart_list');
 Route::get('/cart/clear', 'ShoppingCart@clear')->name('cart_clear');
 Route::get('/cart/remove', 'ShoppingCart@remove')->name('cart_remove');
+Route::post('/cart/checkoutconfirm', 'ShoppingCart@checkoutConfirm')->name('cart_checkout_confirm');
 Route::post('/cart/checkout', 'ShoppingCart@checkout')->name('cart_checkout');
 
 Route::get('/payment/senangpay/return', 'SenangPayPayment@return_')->name('senangpay_return');

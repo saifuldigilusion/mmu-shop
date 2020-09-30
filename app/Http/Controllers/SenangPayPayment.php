@@ -67,6 +67,7 @@ class SenangPayPayment extends Controller
     }
 
     public function callback(Request $request) {
-
+        Log::debug("Senangpay callback");
+        Log::debug($request->all());
     }
 }

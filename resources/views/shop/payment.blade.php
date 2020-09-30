@@ -55,11 +55,46 @@
                       <strong>{{ $order->email }}</strong>
                   </div>
               </div>
-  
+
+              @if($order->delivery)
+              <div class="row">
+                  <div class="col-md-12">
+                      Delivery Address
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="text-muted">Address</label>
+                    <strong>{{ $order->address }}</strong><br>
+                    <strong>{{ $order->address2 }}</strong>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label class="text-muted">Postcode</label>
+                    <strong>{{ $order->postcode }}</strong>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="text-muted">State</label>
+                    <strong>{{ $order->state }}</strong><br>
+                </div>
+                <div class="col-md-6 mb-3">
+                   &nbsp;
+                </div>
+            </div>
+            @endif
       </div>
 
       <div class="col-md-4 order-md-2 mb-4 text-center">
           <ul class="list-group mb-3">
+            <li class="list-group-item d-flex justify-content-between ">
+                <span>Sub Total (MYR)</span>
+                <strong>{{ number_format($order->sub_total, 2, '.', '') }}</strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between ">
+              <span>Delivery Charges (MYR)</span>
+              <strong>{{ number_format($order->shipping, 2, '.', '') }}</strong>
+          </li>
               <li class="list-group-item d-flex justify-content-between bg-secondary text-light">
                   @if($statusId == 1)
                     <span>Total Paid (MYR)</span>
@@ -96,6 +131,13 @@
                               <h4>
                                   <small>{{ $item->description }}</small>
                               </h4>
+                              <p>
+                                <span class="small">
+                              @if($item->shipping > 0)
+                                Delivery charges for {{ $item->qty }} items is RM{{ number_format($item->shipping * $item->qty, 2, '.', '') }}
+                              @endif
+                                </span>
+                              </p>
                               @if($item->booking) 
                                 <a href="/reservation/byorder/{{ $order->orderid }}" class="btn btn-primary"> Book my session </a>
                               @endif

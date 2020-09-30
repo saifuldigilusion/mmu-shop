@@ -15,6 +15,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
+                <th>Shipping</th>
                 <th>Qty</th>
                 <th>Require Booking</th>
             </tr>
@@ -61,6 +62,7 @@ $(function () {
                 {data: 'name', name: 'name', searchable: true, orderable: true},
                 {data: 'description', name: 'description', searchable: false, orderable: false},
                 {data: 'price', name: 'price', orderable: false, searchable: false},
+                {data: 'shipping', name: 'shipping', orderable: false, searchable: false},
                 {data: 'qty', name: 'qty', orderable: false, searchable: false},
                 {data: 'a_booking', name: 'a_booking', orderable: false, searchable: false},
             ]

@@ -43,6 +43,22 @@
                     <dt>Student Id</dt>
                     <dd>{{ $order->studentid }}</dd>
                 </dl>
+                <dl class="param param-feature">
+                    <dt>Delivery</dt>
+                    <dd>{{ $order->delivery ? "Yes": "No" }}</dd>
+                </dl>
+                <dl class="param param-feature">
+                    <dt>Address</dt>
+                    <dd>{{ $order->address }}<br>{{ $order->address2 }}</dd>
+                </dl>
+                <dl class="param param-feature">
+                    <dt>Postcode</dt>
+                    <dd>{{ $order->postcode }}</dd>
+                </dl>
+                <dl class="param param-feature">
+                    <dt>State</dt>
+                    <dd>{{ $order->state }}</dd>
+                </dl>
             </div>
         </div>
         <div class="row">
@@ -88,6 +104,7 @@
                 <th>Name</th>
                 <th>Description</th>
                 <th>Price</th>
+                <th>Shipping</th>
                 <th>Qty</th>
                 <th>Require Booking</th>
             </tr>
@@ -134,6 +151,7 @@
                 {data: 'name', name: 'name', searchable: false, orderable: false},
                 {data: 'description', name: 'description', searchable: false, orderable: false},
                 {data: 'price', name: 'price', orderable: false, searchable: false},
+                {data: 'shipping', name: 'shipping', orderable: false, searchable: false},
                 {data: 'qty', name: 'qty', orderable: false, searchable: false},
                 {data: 'a_booking', name: 'a_booking', orderable: false, searchable: false},
             ]

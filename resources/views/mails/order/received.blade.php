@@ -115,9 +115,39 @@ text-align: center; text-decoration: none; -webkit-text-size-adjust: none;',
                     Email: {{ $order->email }}
                 </td>
                 <td style="{{ $style['table_padding'] }}">
-                    Info: {{ $order->studentid }}
+                    Student ID: {{ $order->studentid }}
                 </td>
             </tr>
+            @if($order->delivery)
+            <tr>
+                <td style="{{ $style['table_padding'] }}">
+                    Delivery Address
+                </td>
+                <td style="{{ $style['table_padding'] }}">
+                   &nbsp;
+                </td>
+            </tr>
+            <tr>
+                <td style="{{ $style['table_padding'] }}">
+                    Address:<br>
+                    {{ $order->address }}<br>
+                    {{ $order->address2 }}
+                </td>
+                <td style="{{ $style['table_padding'] }}">
+                    Postcode: {{ $order->postcode }}
+                </td>
+            </tr>
+            <tr>
+                <td style="{{ $style['table_padding'] }}">
+                    State: {{ $order->state }}
+                    {{ $order->address }}<br>
+                    {{ $order->address2 }}
+                </td>
+                <td style="{{ $style['table_padding'] }}">
+                    &nbsp;
+                 </td>
+            </tr>
+            @endif
         </table>
     
     </td>
@@ -137,6 +167,9 @@ text-align: center; text-decoration: none; -webkit-text-size-adjust: none;',
                 <td style="{{ $style['table_padding'] }} background-color: #ccc;">
                     Price
                 </td>
+                <td style="{{ $style['table_padding'] }} background-color: #ccc;">
+                    Dlvr Charge
+                </td>
             </tr>
             @foreach($orderItems as $item)
             <tr>
@@ -153,10 +186,16 @@ text-align: center; text-decoration: none; -webkit-text-size-adjust: none;',
                 </td>
                 <td style="{{ $style['table_padding'] }}">
                     {{ $item->price }}
-                 </td>
+                </td>
+                <td style="{{ $style['table_padding'] }}">
+                    {{ $item->shipping }}
+                </td>
             </tr>
             @endforeach
             <tr>
+                <td style="{{ $style['table_padding'] }} background-color: #ccc;">
+                    &nbsp;
+                </td>
                 <td style="{{ $style['table_padding'] }} background-color: #ccc;">
                     &nbsp;
                 </td>
