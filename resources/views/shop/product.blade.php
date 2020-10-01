@@ -35,11 +35,18 @@
             Product Detail
           </div>
           <div class="card-body">
+            <!-- Go to www.addthis.com/dashboard to customize your tools -->
+            <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5f75814af2755470"></script>
+            <div class="addthis_inline_share_toolbox"></div>
+            <br>
             {!! $product->long_description !!}
+
           </div>
           <div class="card-footer">
             <a href="/cart/add?id={{ $product->id }}" class="btn btn-buy"><i class="fa fa-shopping-cart"></i> Add to Cart</a>
           </div>
+          <!-- Go to www.addthis.com/dashboard to customize your tools -->
+
         </div>
         <!-- /.card -->
 
@@ -50,5 +57,9 @@
 
   </div>
   <!-- /.container -->
+
+@endsection
+
+@section('js')
 
 @endsection
