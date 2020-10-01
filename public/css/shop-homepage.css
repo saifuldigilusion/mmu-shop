@@ -4,7 +4,7 @@
  * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-homepage/blob/master/LICENSE)
  */
 body {
-  padding-top: 56px;
+  padding-top: 56px; 
 }
 
 .navbar-custom { 
@@ -27,6 +27,11 @@ body {
 
 .blue-mmu { 
   background-color: #093990; 
+} 
+
+.red-mmu { 
+  background-color: red;
+  color:white; 
 } 
 
 .btn-buy { 

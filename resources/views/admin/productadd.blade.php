@@ -18,6 +18,7 @@
  $schedule_id = 0;
  $category_id = 1;
  $order = 0;
+ $main_page = 0;
  $selfcollect = 0;
  $delivery = 0;
 
@@ -38,6 +39,7 @@
     $order = $product->order;
     $selfcollect = $product->selfcollect;
     $delivery = $product->delivery;
+    $main_page = $product->main_page;
 
     $edit = true;
  }   
@@ -65,6 +67,13 @@
                 <div class="form-group row">
                     <label for="order">Order</label>
                     <input type="number" class="form-control" id="order" name="order" placeholder="" value="{{ $order }}">
+                </div>
+                <div class="form-group row">
+                    <label for="main_page">Main Page</label>
+                    <select class="custom-select" id="main_page" name="main_page">
+                        <option value="1" {{ $main_page ? "selected": ""}}>Yes</option>
+                        <option value="0" {{ $main_page ? "": "selected"}}>No</option>
+                    </select>
                 </div>
                 <div class="form-group row">
                     <label for="name">Name</label>

@@ -70,6 +70,7 @@ class ProductController extends Controller
             $product->order = $request->input('order');
             $product->selfcollect = $request->input('selfcollect') == "on" ? 1:0;
             $product->delivery = $request->input('delivery') == "on" ? 1:0;
+            $product->main_page = $request->input('main_page');
 
             $product->save();
 

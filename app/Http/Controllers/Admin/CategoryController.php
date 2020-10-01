@@ -37,6 +37,7 @@ class CategoryController extends Controller
                 $category = new Category;
             }
             $category->name = $request->input('name');
+            $category->image = $request->input('image');
 
             $category->save();
             return view('admin.categorylist');

@@ -7,11 +7,13 @@
 @php
  $id = 0;
  $name = "";
+ $image = "";
 
  $edit = false;
  if($category !== null) {
     $id = $category->id;
     $name = $category->name;
+    $image = $category->image;
 
     $edit = true;
  }   
@@ -33,6 +35,13 @@
                     <input type="text" class="form-control" id="name" name="name" placeholder="Category name" value="{{ $name }}" required>
                     <div class="invalid-feedback">
                         Please insert category name
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="image">Image</label>
+                    <input type="text" class="form-control" id="image" name="image" placeholder="Category image 260x100" value="{{ $image }}" required>
+                    <div class="invalid-feedback">
+                        Please insert image URL
                     </div>
                 </div>
             </div>

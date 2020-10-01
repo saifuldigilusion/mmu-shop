@@ -12,7 +12,7 @@ class Shop extends Controller
 {
     //
     public function show(Request $request) {
-        $products = Product::where('available', 1)->orderBy('order', 'ASC')->get();
+        $products = Product::where('available', 1)->where('main_page', 1)->orderBy('order', 'ASC')->get();
         $carousels = Carousel::where('active', 1)->get();
         $categories = Category::get();
         return view('shop.main', compact('products', 'carousels', 'categories'));

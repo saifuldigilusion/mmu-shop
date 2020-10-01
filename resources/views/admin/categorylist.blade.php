@@ -12,6 +12,7 @@
             <tr>
                 <th>No</th>
                 <th>Name</th>
+                <th>Image</th>
                 <th>&nbsp;</th>
             </tr>
         </thead>
@@ -60,6 +61,7 @@ $(function () {
         columns: [
             {data: 'DT_RowIndex', name: 'DT_RowIndex'},
             {data: 'name', name: 'name', orderable: false, searchable: false},
+            {data: 'image', name: 'image', orderable: false, searchable: false},
             {data: 'action', name: 'action', orderable: false,searchable: false},
         ]
     });

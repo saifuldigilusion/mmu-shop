@@ -38,6 +38,20 @@
           </a>
         </div>
 
+        <div class="row mb-3">
+            @foreach($categories as $c)
+            <div class="col-sm-3">
+              <div class="card text-center">
+                <img src="{{ $c->image }}" class="card-img-top" alt="...">
+                <div class="card-body red-mmu">
+                  <h5><span>{{ $c->name }}</span></h5>
+                  <a href="/category/{{ strtolower(str_replace(' ', '', $c->name)) }}" class="stretched-link"></a>
+                </div>
+              </div>
+            </div>
+            @endforeach
+        </div>
+
         <div class="row">
           @if($products->count())
             @foreach ($products as $product)
