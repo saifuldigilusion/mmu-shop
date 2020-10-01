@@ -35,8 +35,10 @@ $itemDelivery = false;
                         </span>
                         <p>
                           <span class="small">
+                        @if(count($deliveryCharges) > 0)
                         @if($deliveryCharges[$item->id])
                           Delivery charges for {{ $item->qty }} items is RM{{ $deliveryCharges[$item->id] }}
+                        @endif
                         @endif
                           </span>
                         </p>

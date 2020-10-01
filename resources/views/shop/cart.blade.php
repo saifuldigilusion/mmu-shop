@@ -125,7 +125,7 @@ $itemDelivery = false;
                 <div class="col-md-6 mb-3">
                   <div class="form-check">
                   <input type="checkbox" class="form-check-input" id="todeliver"><label for="todeliver" class="form-check-label">Ship my item(s)</label>
-                  <input type="hidden" name="delivery"  id="delivery" value="1">
+                  <input type="hidden" name="delivery"  id="delivery" value="0">
                   </div>
                 </div>
               </div>
@@ -134,12 +134,12 @@ $itemDelivery = false;
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="phone">Address</label>
-                  <input type="text" class="form-control" name="address" id="address" placeholder="Street Address" value="" required>
+                  <input type="text" class="form-control" name="address" id="address" placeholder="Street Address" value="">
                   <input type="text" class="form-control" name="address2" id="address2" placeholder="" value="" >
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="postcode">Postcode</label>
-                  <input type="number" class="form-control" name="postcode" id="postcode" placeholder="" value="" required>
+                  <input type="number" class="form-control" name="postcode" id="postcode" placeholder="" value="">
                   <div class="invalid-feedback">
                     Please enter a valid postcode.
                   </div>
@@ -149,7 +149,7 @@ $itemDelivery = false;
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="state">State</label>
-                  <select name="state" id="state" class="form-control" required>
+                  <select name="state" id="state" class="form-control">
                     <option value=""></option>
                     @foreach(Config::get('mmucnergy.malaysiaStates') as $s => $v)
                       <option value="{{ $s }}">{{ $s }}</option>
@@ -186,19 +186,19 @@ $itemDelivery = false;
 (function() {
 'use strict';
 window.addEventListener('load', function() {
-// Fetch all the forms we want to apply custom Bootstrap validation styles to
-var forms = document.getElementsByClassName('needs-validation');
-// Loop over them and prevent submission
-var validation = Array.prototype.filter.call(forms, function(form) {
-form.addEventListener('submit', function(event) {
-if (form.checkValidity() === false) {
-event.preventDefault();
-event.stopPropagation();
-}
-form.classList.add('was-validated');
-}, false);
-});
-}, false);
+  // Fetch all the forms we want to apply custom Bootstrap validation styles to
+  var forms = document.getElementsByClassName('needs-validation');
+  // Loop over them and prevent submission
+  var validation = Array.prototype.filter.call(forms, function(form) {
+    form.addEventListener('submit', function(event) {
+      if (form.checkValidity() === false) {
+        event.preventDefault();
+        event.stopPropagation(); 
+      }
+      form.classList.add('was-validated');
+    }, false);
+  });
+  }, false);
 })();
 
       function countAddRemove(a) {
@@ -247,10 +247,16 @@ form.classList.add('was-validated');
           if(this.checked) {
             $("#deliveryform").removeClass("d-none");
             $("#delivery").val("1");
+            $("#address").prop('required', true);
+            $("#postcode").prop('required', true);
+            $("#state").prop('required', true);
           }
           else {
             $("#deliveryform").addClass("d-none");
             $("#delivery").val("0");
+            $("#address").prop('required', false);
+            $("#postcode").prop('required', false);
+            $("#state").prop('required', false);
           }
         });
       })();

@@ -134,12 +134,11 @@ class ShoppingCart extends Controller
             $total = Cart::total();
             $count = Cart::count();
 
-            $malaysiaStates = config('mmucnergy.malaysiaStates');
-            $eastWestMalaysia = $malaysiaStates[$checkoutInfo["state"]];
-
             $deliveryCharges = array();
             $totalDeliveryCharges = 0.00;
             if($checkoutInfo["delivery"]) {
+                $malaysiaStates = config('mmucnergy.malaysiaStates');
+                $eastWestMalaysia = $malaysiaStates[$checkoutInfo["state"]];
                 foreach($items as $i) {
                     if($i->options["delivery"]) {
                         $productDeliveryCost = ProductDeliveryCost::where('product_id', $i->id)->where('name', $eastWestMalaysia)->first();
@@ -210,7 +209,7 @@ class ShoppingCart extends Controller
                 $oi->qty = $item->qty;
                 $oi->booking = $item->options["booking"];
 
-                if($item->options["delivery"]) {
+                if($order->delivery) {
                     $productDeliveryCost = ProductDeliveryCost::where('product_id', $item->id)->where('name', $eastWestMalaysia)->first();
                     if($productDeliveryCost) {
                         $deliveryCost = $productDeliveryCost->price * $item->qty;
