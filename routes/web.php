@@ -79,6 +79,8 @@ Route::prefix('admin')->group(function () {
         
         Route::match(array('GET','POST'), '/scheduleslot/add/{scheduleId}/{scheduleSlotId}', 'Admin\\ScheduleController@addSlot')->name('scheduleslot_add');
         Route::post('/scheduleslot/delete', 'Admin\\ScheduleController@deleteSlot')->name('scheduleslot_delete');
+
+        Route::match(array('GET','POST'), '/change_password', 'Admin\\UserController@changePassword')->name('change_password');
     });
 });
 
