@@ -36,7 +36,7 @@ $itemDelivery = false;
                         <p>
                           <span class="small">
                         @if($item->options["selfcollect"])
-                          Self collect available.
+                          Self collect. 
                         @endif
                         @if($item->options["delivery"])
                             @php
@@ -124,22 +124,22 @@ $itemDelivery = false;
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <div class="form-check">
-                  <input type="checkbox" class="form-check-input" id="todeliver"><label for="todeliver" class="form-check-label">Ship my item(s)</label>
-                  <input type="hidden" name="delivery"  id="delivery" value="0">
+                  <input type="checkbox" class="form-check-input" id="todeliver" checked disabled><label for="todeliver" class="form-check-label">Ship my item(s)</label>
+                  <input type="hidden" name="delivery"  id="delivery" value="1">
                   </div>
                 </div>
               </div>
-              <div id="deliveryform" class="d-none">
+              <div id="deliveryform" class=""><!-- class d-none to hide -->
               <h4 class="mb-3">Delivery Address:</h4>
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="phone">Address</label>
-                  <input type="text" class="form-control" name="address" id="address" placeholder="Street Address" value="">
+                  <input type="text" class="form-control" name="address" id="address" placeholder="Street Address" value="" required>
                   <input type="text" class="form-control" name="address2" id="address2" placeholder="" value="" >
                 </div>
                 <div class="col-md-6 mb-3">
                   <label for="postcode">Postcode</label>
-                  <input type="number" class="form-control" name="postcode" id="postcode" placeholder="" value="">
+                  <input type="number" class="form-control" name="postcode" id="postcode" placeholder="" value="" required>
                   <div class="invalid-feedback">
                     Please enter a valid postcode.
                   </div>
@@ -149,7 +149,7 @@ $itemDelivery = false;
               <div class="row">
                 <div class="col-md-6 mb-3">
                   <label for="state">State</label>
-                  <select name="state" id="state" class="form-control">
+                  <select name="state" id="state" class="form-control" required>
                     <option value=""></option>
                     @foreach(Config::get('mmucnergy.malaysiaStates') as $s => $v)
                       <option value="{{ $s }}">{{ $s }}</option>
