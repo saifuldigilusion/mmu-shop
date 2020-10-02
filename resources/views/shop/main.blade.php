@@ -38,6 +38,7 @@
           </a>
         </div>
 
+        <!--
         <div class="row mb-3">
             @foreach($categories as $c)
             <div class="col-sm-3">
@@ -51,6 +52,7 @@
             </div>
             @endforeach
         </div>
+      -->
 
         <div class="row">
           @if($products->count())
@@ -105,6 +107,8 @@
 
     </div>
     <!-- /.row -->
+    
+    <!--
     <div class="row mb-5">
       <div class="col-md-12 text-center">
         @php
@@ -118,6 +122,7 @@
         @endphp
       </div>
     </div>
+  -->
   </div>
   <!-- /.container -->
 @endsection
